@@ -1,0 +1,42 @@
+name: WordPress Helm Continuos Deployment 
+on:
+  push:
+    branches:
+      - "development"
+    paths:
+      - ".github/workflows/wordpress-cd.yaml"
+      - "app/wordpress/**"
+jobs:
+  deploy:
+    name: deploy to cluster
+    runs-on: ubuntu-latest
+    env:
+      INGRESS_PATH: apptest.dev.clederson.com
+      NAMESPACE: apptest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    - name: Helm Deploy
+      working-directory: ./app/wordpress
+      run: | 
+        aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name ${{ secrets.AWS_EKS_CLUSTER}}
+        helm upgrade \
+          --install my-wordpress \
+          --values values.yaml \
+          --namespace=$NAMESPACE \
+          --set wordpressPassword=${{ secrets.WORDPRESS_PASSWORD}} \
+          --set mariadb.auth.rootPassword=${{ secrets.MARIADB_ROOT_PASSWORD}} \
+          --set mariadb.auth.password=${{ secrets.MARIADB_PASSWORD}} \
+          --set service.type=ClusterIP \
+          --set ingress.enabled=true \
+          --set ingress.ingressClassName=nginx \
+          --set ingress.hostname=$INGRESS_PATH \
+          .

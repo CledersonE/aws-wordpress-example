@@ -1,0 +1,48 @@
+name: WordPress Helm Continuos Integration
+on:
+  pull_request:
+    paths:
+    - '.github/workflows/wordpress-ci.yaml'
+    - 'app/wordpress/**'
+
+jobs:
+  Validations:
+    runs-on: ubuntu-latest
+    env:
+      INGRESS_PATH: apptest.dev.clederson.com
+      NAMESPACE: apptest
+    steps:
+      - name: Checking out code
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Helm template validation
+        working-directory: ./app/wordpress
+        run: |
+          helm template .
+
+      - name: Helm lint
+        run: helm lint ./app/wordpress/.
+
+      - name: Helm upgrade validation
+        working-directory: ./app/wordpress
+        run: |
+          aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name ${{ secrets.AWS_EKS_CLUSTER}}
+          helm upgrade \
+            --install my-wordpress \
+            --values values.yaml \
+            --namespace=$NAMESPACE \
+            --set wordpressPassword=${{ secrets.WORDPRESS_PASSWORD}} \
+            --set mariadb.auth.rootPassword=${{ secrets.MARIADB_ROOT_PASSWORD}} \
+            --set mariadb.auth.password=${{ secrets.MARIADB_PASSWORD}} \
+            --set service.type=ClusterIP \
+            --set ingress.enabled=true \
+            --set ingress.ingressClassName=nginx \
+            --set ingress.hostname=$INGRESS_PATH \
+            . --dry-run
