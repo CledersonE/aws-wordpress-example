@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       INGRESS_PATH: apptest.dev.clederson.com
-      NAMESPACE: apptest
+      NAMESPACE: default
     steps:
       - name: Checking out code
         uses: actions/checkout@v2
