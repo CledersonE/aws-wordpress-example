@@ -10,9 +10,9 @@ resource "kubernetes_namespace" "nginx_ingress" {
 
 resource "helm_release" "nginx_ingress" {
   name       = "nginx-ingress"
-  chart      = "nginx-ingress/ingress-nginx"
-  version    = "4.1.4"
-  namespace = "nginx-ingress"
+  chart      = "nginx-stable/nginx-ingress"
+  version    = "0.13.2"
+  namespace  = "nginx-ingress"
 
   depends_on = [
     kubernetes_namespace.nginx_ingress
@@ -23,7 +23,7 @@ resource "helm_release" "nginx_ingress" {
 
 data "kubernetes_service" "nginx_ingress" {
   metadata {
-    name      = "nginx-ingress-ingress-nginx-controller"
+    name      = "nginx-ingress-nginx-ingress"
     namespace = helm_release.nginx_ingress.metadata[0].namespace
   }
 }
