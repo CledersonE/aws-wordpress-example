@@ -24,6 +24,7 @@ This repo contains a basic demo of creating the AWS Infrastructure for EKS to ru
 - The DNS Zone used in this example is dev.clederson.com, the URLs will be generated for this zone
 - The CI Workflow will run on every pull request
 - The CD Workflow is configured to trigger based on any changes in the `development` branch
+- Prometheus Stack is deployed using the default values, so it is only available inside of the cluster
 - To set the Github Action workflows to deploy the application is necessary to set the secrets as the example below:
 
 | Name                    | Description                                                                                                                                                                                                       |
@@ -43,5 +44,6 @@ This repo contains a basic demo of creating the AWS Infrastructure for EKS to ru
 - Deploy Secret Manager to store sensitive data
 - Separeted service account for GitHub Actions
 - K8s volumes to be used by Prometheus
+- CI/CD for Terraform
 - OpenID to Connect in AWS for GitHub Actions
 - Create the Staging and Production environment and set the workflows as was done for the development
