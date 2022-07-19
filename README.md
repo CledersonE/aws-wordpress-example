@@ -26,7 +26,7 @@ This repo contains a basic demo of creating the AWS Infrastructure for EKS to ru
 - The CI Workflow will run on every pull request
 - The CD Workflow is configured to trigger based on any changes in the `development` branch
 - Prometheus Stack is deployed using the default values, so it is only available inside of the cluster
-- To set the Github Action workflows to upgrade the application deployment is necessary to set the secrets as the example below:
+- To set the Github Action workflows to deploy the application is necessary to set the secrets as the example below:
 
 | Name                    | Description                                                                                                                                                                                                       |
 | ------------------------| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
