@@ -21,11 +21,12 @@ This repo contains a basic demo of creating the AWS Infrastructure for EKS to ru
 ## Important Notes to run this project
 
 - There is a terraform.auto.tfvars file available with an example of how to set the necessary variables
-- The DNS Zone used in this example is dev.clederson.com, the URLs will be generated for this zone
+- There is a pre-configured bucket in the AWS account to store the tfstate. If you want to run this project you need to set the bucket name in the Terraform backend.
+- The DNS Zone used in this example is dev.clederson.com, the URLs will be generated for this zone. If you want to configure to your specific zone, you need to change the `domain_name` variable in the tfvars file as well as the `INGRESS_PATH` in the CI/CD workflows
 - The CI Workflow will run on every pull request
 - The CD Workflow is configured to trigger based on any changes in the `development` branch
 - Prometheus Stack is deployed using the default values, so it is only available inside of the cluster
-- To set the Github Action workflows to deploy the application is necessary to set the secrets as the example below:
+- To set the Github Action workflows to upgrade the application deployment is necessary to set the secrets as the example below:
 
 | Name                    | Description                                                                                                                                                                                                       |
 | ------------------------| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
