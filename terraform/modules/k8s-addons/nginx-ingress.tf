@@ -9,10 +9,10 @@ resource "kubernetes_namespace" "nginx_ingress" {
 }
 
 resource "helm_release" "nginx_ingress" {
-  name      = "nginx-ingress"
-  chart     = "nginx-stable/nginx-ingress"
-  version   = "0.13.2"
-  namespace = "nginx-ingress"
+  name       = "nginx-ingress"
+  chart      = "nginx-stable/nginx-ingress"
+  version    = "0.13.2"
+  namespace  = "nginx-ingress"
 
   depends_on = [
     kubernetes_namespace.nginx_ingress
