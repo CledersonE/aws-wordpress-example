@@ -26,7 +26,7 @@ This repo contains a basic demo of creating the AWS Infrastructure for EKS to ru
 - The CI Workflow will run on every pull request
 - The CD Workflow is configured to trigger based on any changes in the `development` branch
 - Prometheus Stack is deployed using the default values, so it is only available inside of the cluster
-- To set the Github Action workflows to upgrade the application deployment is necessary to set the secrets as the example below:
+- To set the Github Action workflows to deploy the application is necessary to set the secrets as the example below:
 
 | Name                    | Description                                                                                                                                                                                                       |
 | ------------------------| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -34,9 +34,9 @@ This repo contains a basic demo of creating the AWS Infrastructure for EKS to ru
 | `AWS_SECRET_ACCESS_KEY` | The secret of your AWS Key                                                                                                                                                                                        |
 | `AWS_REGION`            | The AWS Region where you will deploy your resources                                                                                                                                                               |
 | `AWS_EKS_CLUSTER`       | The name of your EKS Cluster                                                                                                                                                                                      |
-| `MARIADB_PASSWORD`      | The password used for the DB, you can get this from the K8s cluster with: `kubectl get secret --namespace <namespacename> my-wordpress-mariadb -o jsonpath="{.data.mariadb-password}" \| base64 --decode`           |
-| `MARIADB_ROOT_PASSWORD` | The root password used for the DB, you can get this from the K8s cluster with: `kubectl get secret --namespace <namespacename> my-wordpress-mariadb -o jsonpath="{.data.mariadb-root-password}" \| base64 --decode` |
-| `WORDPRESS_PASSWORD`    | The password used for WordPress, you can get this from the K8s cluster with: `kubectl get secret --namespace <namespacename> my-wordpress -o jsonpath="{.data.wordpress-password}" \| base64 --decode`      |
+| `MARIADB_PASSWORD`      | The password used for the DB, you can set your own or after the first deployment get this from the K8s cluster with: `kubectl get secret --namespace <namespacename> my-wordpress-mariadb -o jsonpath="{.data.mariadb-password}" \| base64 --decode`           |
+| `MARIADB_ROOT_PASSWORD` | The root password used for the DB, you can set your own or after the first deployment get this from the K8s cluster with: `kubectl get secret --namespace <namespacename> my-wordpress-mariadb -o jsonpath="{.data.mariadb-root-password}" \| base64 --decode` |
+| `WORDPRESS_PASSWORD`    | The password used for WordPress, you can set your own or after the first deployment get this from the K8s cluster with: `kubectl get secret --namespace <namespacename> my-wordpress -o jsonpath="{.data.wordpress-password}" \| base64 --decode`      |
 
 ## What can be improved in this project:
 
